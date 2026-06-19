@@ -1,0 +1,31 @@
+# Python cache/bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Git submodule mess (nested .git found inside deep_learing_models)
+deep_learing_models/.git/
+
+# Large model checkpoints — too big for git, use Git LFS or external storage instead
+deep_learing_models/checkpoints/**/*.pth
+tsfm/units/*.pth
+
+# Large/raw datasets — don't commit data dumps
+dataset/*.csv
+deep_learing_models/dataset/*.csv
+deep_learing_models/temp/*.csv
+
+# Logs and run artifacts
+*.out
+*.log
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS/editor junk
+.DS_Store
+*.swp
+
+# Duplicate/junk files (the "copy" files you have lying around)
+*copy*.py
+*copy*.csv
