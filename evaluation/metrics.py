@@ -7,14 +7,9 @@ def get_metrics(score, labels, slidingWindow=168, pred=None, version='opt', thre
     Threshold Independent
     '''
     grader = basic_metricor()
-    # AUC_ROC, Precision, Recall, PointF1, PointF1PA, Rrecall, ExistenceReward, OverlapReward, Rprecision, RF, Precision_at_k = grader.metric_new(labels, score, pred, plot_ROC=False)
     AUC_ROC = grader.metric_ROC(labels, score)
     AUC_PR = grader.metric_PR(labels, score)
-
-    # R_AUC_ROC, R_AUC_PR, _, _, _ = grader.RangeAUC(labels=labels, score=score, window=slidingWindow, plot_ROC=True)
-    # _, _, _, _, _, _,VUS_ROC, VUS_PR = generate_curve(labels.astype(int), score, slidingWindow, version, thre)
-
-
+    
     '''
     Threshold Dependent
     if pred is None --> use the oracle threshold
@@ -28,12 +23,6 @@ def get_metrics(score, labels, slidingWindow=168, pred=None, version='opt', thre
 
     metrics['AUC-PR'] = AUC_PR
     metrics['AUC-ROC'] = AUC_ROC
-    # metrics['VUS-PR'] = VUS_PR
-    # metrics['VUS-ROC'] = VUS_ROC
-
-    # metrics['Standard-Precision'] = precision
-    # metrics['Standard-Recall'] = recall
-    # metrics['Standard-F1'] = PointF1
     metrics['PA-F1'] = PointF1PA
     metrics['Event-based-F1'] = EventF1PA
     metrics['R-based-F1'] = RF1
@@ -53,19 +42,11 @@ def get_metrics_pred(score, labels, pred, slidingWindow=168):
     Affiliation_F1 = grader.metric_Affiliation(labels, score, preds=pred)
     VUS_R, VUS_P, VUS_F = grader.metric_VUS_pred(labels, preds=pred, windowSize=slidingWindow)
     
-    # metrics['Standard-Precision'] = precision
-    # metrics['Standard-Recall'] = recall
     metrics['Standard-F1'] = PointF1
     metrics['PA-F1'] = PointF1PA
     metrics['Event-based-F1'] = EventF1PA
-    # metrics['Event-based-Recall'] = rec_e
-    # metrics['Event-based-Precision'] = prec_t
     metrics['R-based-F1'] = RF1
-    # metrics['R-based-Recall'] = Rrecall
-    # metrics['R-based-Precision'] = Rprecision
     metrics['Affiliation-F'] = Affiliation_F1
-    # metrics['Affiliation-Recall'] = Affiliation_Recall
-    # metrics['Affiliation-Precision'] = Affiliation_Precision
 
     metrics['VUS-Recall'] = VUS_R
     metrics['VUS-Precision'] = VUS_P
