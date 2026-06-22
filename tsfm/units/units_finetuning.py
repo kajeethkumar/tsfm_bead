@@ -358,7 +358,7 @@ def main():
     df = pd.read_csv(args.input_csv)
     df = df[df['building_id'] > 909]
 
-    df1 = pd.read_csv('dataset/train_features.csv')
+    df1 = pd.read_csv('../../dataset/train_features.csv')
     valid_buildings = df1['building_id'].unique()
     df = df[df['building_id'].isin(valid_buildings)]
 
