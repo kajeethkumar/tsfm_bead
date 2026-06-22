@@ -356,8 +356,6 @@ def main():
     # if os.path.exists(args.predictions_csv): os.remove(args.predictions_csv)
 
     df = pd.read_csv(args.input_csv)
-    remove_bid = [32, 534, 558, 653, 693, 723, 739, 855, 910, 970, 1147, 1183, 1264, 1282]
-    df = df[~df['building_id'].isin(remove_bid)]
     df = df[df['building_id'] > 909]
 
     df1 = pd.read_csv('dataset/train_features.csv')
