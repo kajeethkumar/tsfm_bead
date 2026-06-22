@@ -6,7 +6,7 @@ Buildings account for nearly 40% of global energy consumption, and roughly 20% o
 
 Time Series Foundation Models, pretrained on large and heterogeneous temporal corpora, offer a promising alternative: transferable representations that support strong zero-shot and few-shot performance with little or no labeled data.
 
-This study benchmarks pretrained TSFMs (**MOMENT**, **UniTS**, **TSPulse**) under both **zero-shot** and **fine-tuning** settings on the **LEAD (Large-scale Energy Anomaly Detection)** dataset — 192 non-residential buildings across 15 building types and sites — and compares them against:
+This study benchmarks pretrained TSFMs (**MOMENT**, **UniTS**, **TSPulse**) under both **zero-shot** and **fine-tuning** settings on the **LEAD (Large-scale Energy Anomaly Detection)** dataset — 200 non-residential buildings across  15 sites and 15 building types — and compares them against:
 
 - **Statistical baselines:** Modified Z-Score (mZ-Score), IQR
 - **Machine learning models:** Local Outlier Factor (LOF), Isolation Forest (IForest), K-Means
