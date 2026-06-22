@@ -28,5 +28,5 @@ After downloading, your `dataset/` folder should look like this:
 dataset/
 ├── README.md
 ├── train.csv
-├── train_features.csv
+└── train_features.csv
 ```
