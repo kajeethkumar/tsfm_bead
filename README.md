@@ -16,7 +16,7 @@ Performance is assessed using both point-wise metrics (AUC-ROC, PA-F1, Event-F1)
 
 The overall system architecture illustrated below.
 
-![System Architecture](assets/System_Architecture.pdf)
+![System Architecture](assets/System_Architecture.jpg)
 
 ## How to Run
 
