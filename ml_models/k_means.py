@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # Load and filter datasets
     df = pd.read_csv(args.input_csv)
 
-    df1 = pd.read_csv('dataset/train_features.csv')
+    df1 = pd.read_csv('../dataset/train_features.csv')
     valid_buildings = df1['building_id'].unique()
     df = df[df['building_id'].isin(valid_buildings)]
     
