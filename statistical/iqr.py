@@ -62,9 +62,6 @@ if __name__ == "__main__":
 
     # Load and filter data
     df = pd.read_csv(args.input_csv)
-    remove_bid = [32, 534, 558, 653, 693, 723, 739, 855, 910, 970, 1147, 1183, 1264, 1282]
-    df = df[~df['building_id'].isin(remove_bid)]
-
     df1 = pd.read_csv('dataset/train_features.csv')
     valid_buildings = df1['building_id'].unique()
     df = df[df['building_id'].isin(valid_buildings)]
