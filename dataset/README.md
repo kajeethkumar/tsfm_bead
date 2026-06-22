@@ -6,7 +6,7 @@ This project uses the **LEAD (Large-scale Energy Anomaly Detection)** dataset, w
 
 The dataset is publicly available on Kaggle:
 
-🔗 [https://www.kaggle.com/competitions/energy-anomaly-detection/data?select=train.csv]([https://www.kaggle.com/competitions/energy-anomaly-detection](https://www.kaggle.com/competitions/energy-anomaly-detection/data?select=train.csv))
+🔗 [https://www.kaggle.com/competitions/energy-anomaly-detection/data?select=train.csv](https://www.kaggle.com/competitions/energy-anomaly-detection/data?select=train.csv)
 
 Download the dataset from the link above and place all the files inside this `dataset/` folder.
 
