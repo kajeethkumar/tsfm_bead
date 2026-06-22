@@ -4,15 +4,11 @@
 # CONFIG
 # =========================
 MODELS=(
-    # Autoformer Crossformer DLinear FEDformer FiLM Informer iTransformer
-    # KANAD LightTS MICN MSGNet Nonstationary_Transformer PatchTST
-    # Pyraformer Reformer TimeFilter TimesNet Transformer
-    # KACformer KANformer KANformerCorr
-    # KMeansAD OCSVM
-    Pyraformer
+    Crossformer Informer KANDAD
+    Nonstationary_Transformer iTransformer
 )
 
-DATA_PATH="./dataset/LEAD_191_filtered.csv"
+DATA_PATH="../dataset/train.csv"
 TEMP_DIR="./temp"
 
 mkdir -p $TEMP_DIR
