@@ -232,7 +232,7 @@ if __name__ == "__main__":
 
     df = pd.read_csv(args.input_csv)
 
-    df1 = pd.read_csv('dataset/train_features.csv')
+    df1 = pd.read_csv('../../dataset/train_features.csv')
 
     # Keep only building_ids present in df1
     valid_buildings = df1['building_id'].unique()
