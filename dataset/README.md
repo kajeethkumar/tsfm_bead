@@ -15,14 +15,7 @@ Download the dataset from the link above and place 'train.csv' and 'train_featur
 After partitioning the data chronologically (first 6 months for training, next 2 months for validation, and the last 4 months for testing), we found that the following **8 building IDs** had **no anomaly events in the last 4 months (test period)**:
 
 ```
-32
-534
-653
-693
-739
-970
-1147
-1264
+32, 534, 653, 693, 739, 970, 1147, 1264
 ```
 
 Since meaningful evaluation requires positive anomaly instances in the test set, these buildings were **excluded** from the benchmark. This reduces the dataset from 200 buildings to the **192 buildings** used in all experiments and results reported in this study.
