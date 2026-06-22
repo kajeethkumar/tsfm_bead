@@ -1,79 +1,84 @@
 #!/bin/bash
 
-# =========================
-# CONFIG
-# =========================
+# ======================================================
+# Models to evaluate
+# ======================================================
 MODELS=(
-    Crossformer Informer KANDAD
-    Nonstationary_Transformer iTransformer
+    "Crossformer"
+    "Informer"
+    "KANDAD"
+    "Nonstationary_Transformer"
+    "iTransformer"
 )
 
-DATA_PATH="../dataset/train.csv"
-TEMP_DIR="./temp"
-
-mkdir -p $TEMP_DIR
-
-# =========================
-# GET UNIQUE BUILDING IDS
-# =========================
-BUILDINGS=$(python - <<END
+# ======================================================
+# Get valid building IDs
+# ======================================================
+BUILDINGS=$(python - <<'PY'
 import pandas as pd
-df = pd.read_csv("$DATA_PATH")
-print(" ".join(map(str, df["building_id"].unique())))
-END
+
+df = pd.read_csv('../../dataset/train.csv')
+
+df1 = pd.read_csv('../../dataset/train_features.csv')
+valid_buildings = set(df1['building_id'].unique())
+
+for bid in sorted(df['building_id'].unique()):
+    if bid in valid_buildings:
+        print(int(bid))
+PY
 )
 
-# =========================
-# LOOP BUILDINGS
-# =========================
-for b_id in $BUILDINGS; do
-    # Check if building_id is less than or equal to 1226
-    if [ "$b_id" -le 1226 ]; then
-        continue # Skip to the next building in the loop
-    fi
+mkdir -p temp
 
-    echo "========== Processing building_id: $b_id =========="
+# ======================================================
+# Run all models on all buildings
+# ======================================================
+for MODEL in "${MODELS[@]}"
+do
+    echo "======================================"
+    echo "Running model: ${MODEL}"
+    echo "======================================"
 
-    # Prepare data using Python
-    python3 - <<END
+    for BID in ${BUILDINGS}
+    
+    do
+        echo "Processing Building ${BID}"
+
+        python - <<PY
 import pandas as pd
+import os
 
-# Now we know for sure this Python block only runs for b_id > 1226
-df = pd.read_csv("$DATA_PATH")
+b_id = ${BID}
 
-df_b = df[df["building_id"] == int("$b_id")].copy()
+df = pd.read_csv('../../dataset/train.csv')
 
-ratio = df_b["anomaly"].mean() * 100
+df1 = pd.read_csv('../../dataset/train_features.csv')
+valid_buildings = df1['building_id'].unique()
+df = df[df['building_id'].isin(valid_buildings)]
 
-df_b["meter_reading"] = df_b["meter_reading"].fillna(df_b["meter_reading"].median())
-df_b.to_csv("$TEMP_DIR/train.csv", index=False)
+df_b = df[df['building_id'] == b_id].copy()
 
-print(f"Anomaly Ratio: {ratio}")
-END
+if len(df_b) == 0:
+    raise ValueError(f"No data found for building {b_id}")
 
-    # Extract ratio again (clean way)
-    RATIO=$(python - <<END
-import pandas as pd
-df = pd.read_csv("$TEMP_DIR/train.csv")
-print(df["anomaly"].mean() * 100)
-END
+actual_ratio = df_b['anomaly'].mean() * 100
+print(f"Building {b_id} anomaly ratio: {actual_ratio:.2f}%")
+
+df_b['meter_reading'] = df_b['meter_reading'].fillna(
+    df_b['meter_reading'].median()
 )
 
-    echo "Anomaly Ratio for building $b_id: $RATIO"
-
-    # =========================
-    # LOOP MODELS
-    # =========================
-    for MODEL in "${MODELS[@]}"; do
-        echo "--- Running Model: $MODEL for Building: $b_id ---"
+os.makedirs('temp', exist_ok=True)
+df_b.to_csv('temp/train.csv', index=False)
+PY
 
         python -u run.py \
             --task_name anomaly_detection \
             --is_training 1 \
-            --root_path $TEMP_DIR \
+            --root_path ./temp \
             --data_path train.csv \
             --model_id LEAD \
-            --model $MODEL \
+            --model "${MODEL}" \
             --data LEAD \
             --features S \
             --seq_len 168 \
@@ -83,13 +88,15 @@ END
             --e_layers 2 \
             --enc_in 1 \
             --c_out 1 \
-            --anomaly_ratio $RATIO \
             --batch_size 64 \
             --train_epochs 20 \
-            --building_id $b_id \
+            --building_id "${BID}" \
             --learning_rate 0.0001 \
             --patience 5
-    done
 
-    echo "Finished all models for building_id: $b_id"
+        echo "Finished Building ${BID}"
+        echo
+    done
 done
+
+echo "All experiments completed."
